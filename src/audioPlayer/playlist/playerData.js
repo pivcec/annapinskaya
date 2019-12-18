@@ -1,5 +1,5 @@
-const playerData = {
-  playerOne: [
+const playerData = [
+  [
     {
       title: "Dead Butterflies",
       audioUrl:
@@ -29,7 +29,7 @@ const playerData = {
         "http://annapinskaya.com/audioPlayer/images/playerTwo/terminal-values-voice-over.jpeg"
     }
   ],
-  playerTwo: [
+  [
     {
       title: "Leopard Female",
       audioUrl:
@@ -83,7 +83,7 @@ const playerData = {
         'imageUrl': 'http://annapinskaya.com/audioPlayer/images/playerOne/night-drive-to-novoustinovsk.jpeg',
       },*/
   ],
-  playerThree: [
+  [
     {
       title: "Trailer",
       audioUrl:
@@ -92,6 +92,6 @@ const playerData = {
         "http://annapinskaya.com/audioPlayer/images/playerThree/vanta-white-trailer.jpeg"
     }
   ]
-};
+];
 
 export default playerData;

@@ -1,8 +1,43 @@
 import React, { Component } from "react";
+import styled from "styled-components";
+
+const Controls = styled.div`
+  text-align: center;
+`;
+
+const TrackNumber = styled.div`
+  text-align: center;
+`;
+
+const LeftButton = styled.div`
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  vertical-align: middle;
+`;
+
+const PlayPauseButton = styled.div`
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  vertical-align: middle;
+`;
+
+const RightButton = styled.div`
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  vertical-align: middle;
+`;
+
+const PlayerImage = styled.img`
+  max-width: 100px;
+  cursor: pointer;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+`;
 
 class AudioPlayer extends Component {
-  getPlayerIsPlaying = (playerName, playerThatIsPlaying) => {
-    if (playerName === playerThatIsPlaying) {
+  getPlayerIsPlaying = (playerId, playerThatIsPlaying) => {
+    if (playerId === playerThatIsPlaying) {
       return true;
     }
     return false;
@@ -10,13 +45,9 @@ class AudioPlayer extends Component {
 
   render() {
     const {
-      playerData,
-      audioPlayer,
-      playerName,
       playerId,
+      playerData,
       playerKey,
-      currentSong,
-      totalNumberOfSongs,
       playerThatIsPlaying,
       handlePauseClick,
       handlePlayClick,
@@ -25,86 +56,78 @@ class AudioPlayer extends Component {
       handleImageClick
     } = this.props;
 
+    const currentSong = playerKey + 1;
+    const totalNumberOfSongs = playerData.length;
+
     const playerIsPlaying = this.getPlayerIsPlaying(
-      playerName,
+      playerId,
       playerThatIsPlaying
     );
 
     return (
-      <div>
+      <>
         <audio
-          ref={el => (this[playerName] = el)}
-          src={playerData[playerName][playerKey]["audioUrl"]}
+          ref={el => (this[playerId] = el)}
+          src={playerData[playerKey]["audioUrl"]}
           autoPlay={false}
         />
-        <div className="controls">
-          <div className="track-number">
-            {currentSong + " / " + totalNumberOfSongs}
-          </div>
-          <div
-            className="left-button"
+        <Controls>
+          <TrackNumber>{`${currentSong} / ${totalNumberOfSongs}`}</TrackNumber>
+          <LeftButton
             onClick={() => {
               handlePreviousSongClick(
-                playerName,
                 playerKey,
                 currentSong,
                 playerIsPlaying,
-                this[playerName]
+                this[playerId]
               );
             }}
           >
             <i className="material-icons">keyboard_arrow_left</i>
-          </div>
+          </LeftButton>
           {playerIsPlaying && (
-            <div
-              className="play-pause-button"
+            <PlayPauseButton
               onClick={() => {
-                handlePauseClick(playerName, this[playerName]);
+                handlePauseClick(this[playerId]);
               }}
             >
               <i className="material-icons">pause_circle_outline</i>
-            </div>
+            </PlayPauseButton>
           )}
           {!playerIsPlaying && (
-            <div
-              className="play-pause-button"
+            <PlayPauseButton
               onClick={() => {
-                handlePlayClick(playerName, this[playerName]);
+                handlePlayClick(playerId, this[playerId]);
               }}
             >
               <i className="material-icons">play_circle_outline</i>
-            </div>
+            </PlayPauseButton>
           )}
-          <div
-            className="right-button"
+          <RightButton
             onClick={() => {
               handleNextSongClick(
-                playerName,
                 playerKey,
                 currentSong,
                 playerIsPlaying,
                 totalNumberOfSongs,
-                this[playerName]
+                this[playerId]
               );
             }}
           >
             <i className="material-icons">keyboard_arrow_right</i>
-          </div>
-          <div className="player-title">
-            {playerData[playerName][playerKey]["title"]}
-          </div>
-          <div className="player-image-container">
-            <img
-              className="player-image"
-              alt={playerData[playerName][playerKey]["title"]}
-              src={playerData[playerName][playerKey]["imageUrl"]}
+          </RightButton>
+          <div>{playerData[playerKey]["title"]}</div>
+          <div>
+            <PlayerImage
+              alt={playerData[playerKey]["title"]}
+              src={playerData[playerKey]["imageUrl"]}
               onClick={() => {
-                handleImageClick(playerData[playerName][playerKey]["imageUrl"]);
+                handleImageClick(playerData[playerKey]["imageUrl"]);
               }}
             />
           </div>
-        </div>
-      </div>
+        </Controls>
+      </>
     );
   }
 }
