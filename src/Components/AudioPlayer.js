@@ -36,6 +36,74 @@ const PlayerImage = styled.img`
 `;
 
 class AudioPlayer extends Component {
+  state = {
+    playerKey: 0,
+    playerThatIsPlaying: null,
+    refToPlayerThatIsPlaying: null
+  };
+
+  handlePlayClick = (playerName, audioPlayer) => {
+    if (this.state.playerThatIsPlaying !== null) {
+      this.state.refToPlayerThatIsPlaying.pause();
+    }
+    this.setState({
+      playerThatIsPlaying: playerName,
+      refToPlayerThatIsPlaying: audioPlayer
+    });
+    audioPlayer.play();
+  };
+
+  handlePauseClick = audioPlayer => {
+    this.setState({
+      playerThatIsPlaying: null,
+      refToPlayerThatIsPlaying: null
+    });
+    audioPlayer.pause();
+  };
+
+  handlePreviousSongClick = (
+    playerKey,
+    currentSong,
+    playerIsPlaying,
+    audioPlayer
+  ) => {
+    if (currentSong > 1) {
+      this.setState({
+        ...this.state,
+        playerKey: playerKey - 1
+      });
+      if (playerIsPlaying === true) {
+        audioPlayer.pause();
+        this.setState({
+          playerThatIsPlaying: null,
+          refToPlayerThatIsPlaying: null
+        });
+      }
+    }
+  };
+
+  handleNextSongClick = (
+    playerKey,
+    currentSong,
+    playerIsPlaying,
+    totalNumberOfSongs,
+    audioPlayer
+  ) => {
+    if (currentSong < totalNumberOfSongs) {
+      this.setState({
+        ...this.state,
+        playerKey: playerKey + 1
+      });
+      if (playerIsPlaying === true) {
+        audioPlayer.pause();
+        this.setState({
+          playerThatIsPlaying: null,
+          refToPlayerThatIsPlaying: null
+        });
+      }
+    }
+  };
+
   getPlayerIsPlaying = (playerId, playerThatIsPlaying) => {
     if (playerId === playerThatIsPlaying) {
       return true;
@@ -44,21 +112,10 @@ class AudioPlayer extends Component {
   };
 
   render() {
-    const {
-      playerId,
-      playerData,
-      playerKey,
-      playerThatIsPlaying,
-      handlePauseClick,
-      handlePlayClick,
-      handlePreviousSongClick,
-      handleNextSongClick,
-      handleImageClick
-    } = this.props;
-
+    const { playerId, playerData, handleImageClick } = this.props;
+    const { playerKey, playerThatIsPlaying } = this.state;
     const currentSong = playerKey + 1;
     const totalNumberOfSongs = playerData.length;
-
     const playerIsPlaying = this.getPlayerIsPlaying(
       playerId,
       playerThatIsPlaying
@@ -75,7 +132,7 @@ class AudioPlayer extends Component {
           <TrackNumber>{`${currentSong} / ${totalNumberOfSongs}`}</TrackNumber>
           <LeftButton
             onClick={() => {
-              handlePreviousSongClick(
+              this.handlePreviousSongClick(
                 playerKey,
                 currentSong,
                 playerIsPlaying,
@@ -88,7 +145,7 @@ class AudioPlayer extends Component {
           {playerIsPlaying && (
             <PlayPauseButton
               onClick={() => {
-                handlePauseClick(this[playerId]);
+                this.handlePauseClick(this[playerId]);
               }}
             >
               <i className="material-icons">pause_circle_outline</i>
@@ -97,7 +154,7 @@ class AudioPlayer extends Component {
           {!playerIsPlaying && (
             <PlayPauseButton
               onClick={() => {
-                handlePlayClick(playerId, this[playerId]);
+                this.handlePlayClick(playerId, this[playerId]);
               }}
             >
               <i className="material-icons">play_circle_outline</i>
@@ -105,7 +162,7 @@ class AudioPlayer extends Component {
           )}
           <RightButton
             onClick={() => {
-              handleNextSongClick(
+              this.handleNextSongClick(
                 playerKey,
                 currentSong,
                 playerIsPlaying,
@@ -117,15 +174,13 @@ class AudioPlayer extends Component {
             <i className="material-icons">keyboard_arrow_right</i>
           </RightButton>
           <div>{playerData[playerKey]["title"]}</div>
-          <div>
-            <PlayerImage
-              alt={playerData[playerKey]["title"]}
-              src={playerData[playerKey]["imageUrl"]}
-              onClick={() => {
-                handleImageClick(playerData[playerKey]["imageUrl"]);
-              }}
-            />
-          </div>
+          <PlayerImage
+            alt={playerData[playerKey]["title"]}
+            src={playerData[playerKey]["imageUrl"]}
+            onClick={() => {
+              handleImageClick(playerData[playerKey]["imageUrl"]);
+            }}
+          />
         </Controls>
       </>
     );

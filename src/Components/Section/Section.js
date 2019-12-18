@@ -21,77 +21,8 @@ const Description = styled.div`
 `;
 
 class Section extends Component {
-  state = {
-    playerKey: 0,
-    playerThatIsPlaying: null,
-    refToPlayerThatIsPlaying: null
-  };
-
-  handlePlayClick = (playerName, audioPlayer) => {
-    if (this.state.playerThatIsPlaying !== null) {
-      this.state.refToPlayerThatIsPlaying.pause();
-    }
-    this.setState({
-      playerThatIsPlaying: playerName,
-      refToPlayerThatIsPlaying: audioPlayer
-    });
-    audioPlayer.play();
-  };
-
-  handlePauseClick = audioPlayer => {
-    this.setState({
-      playerThatIsPlaying: null,
-      refToPlayerThatIsPlaying: null
-    });
-    audioPlayer.pause();
-  };
-
-  handlePreviousSongClick = (
-    playerKey,
-    currentSong,
-    playerIsPlaying,
-    audioPlayer
-  ) => {
-    if (currentSong > 1) {
-      this.setState({
-        ...this.state,
-        playerKey: playerKey - 1
-      });
-      if (playerIsPlaying === true) {
-        audioPlayer.pause();
-        this.setState({
-          playerThatIsPlaying: null,
-          refToPlayerThatIsPlaying: null
-        });
-      }
-    }
-  };
-
-  handleNextSongClick = (
-    playerKey,
-    currentSong,
-    playerIsPlaying,
-    totalNumberOfSongs,
-    audioPlayer
-  ) => {
-    if (currentSong < totalNumberOfSongs) {
-      this.setState({
-        ...this.state,
-        playerKey: playerKey + 1
-      });
-      if (playerIsPlaying === true) {
-        audioPlayer.pause();
-        this.setState({
-          playerThatIsPlaying: null,
-          refToPlayerThatIsPlaying: null
-        });
-      }
-    }
-  };
-
   render() {
     const { sectionId, playerId, isMain, handleImageClick } = this.props;
-    const { playerKey, playerThatIsPlaying } = this.state;
     return (
       <Container isMain={isMain}>
         <Description>
@@ -106,12 +37,6 @@ class Section extends Component {
           <AudioPlayer
             playerData={playerData[playerId - 1]}
             playerId={playerId}
-            playerKey={playerKey}
-            playerThatIsPlaying={playerThatIsPlaying}
-            handlePlayClick={this.handlePlayClick}
-            handlePauseClick={this.handlePauseClick}
-            handlePreviousSongClick={this.handlePreviousSongClick}
-            handleNextSongClick={this.handleNextSongClick}
             handleImageClick={handleImageClick}
           />
         )}
