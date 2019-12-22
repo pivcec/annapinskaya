@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { updatePlayerThatIsPlaying } from "../reduxUtils/actions/actionCreators";
 import styled from "styled-components";
 
 const Controls = styled.div`
@@ -38,45 +40,43 @@ const PlayerImage = styled.img`
 
 class AudioPlayer extends Component {
   state = {
-    playerKey: 0,
-    playerThatIsPlaying: null,
-    refToPlayerThatIsPlaying: null
+    playerKey: 0
   };
 
-  handlePlayClick = (playerId, audioPlayer) => {
-    if (this.state.playerThatIsPlaying !== null) {
-      this.state.refToPlayerThatIsPlaying.pause();
+  handlePlayClick = playerId => {
+    const { refToPlayerThatIsPlaying } = this.props;
+    if (refToPlayerThatIsPlaying) {
+      refToPlayerThatIsPlaying.pause();
     }
-    this.setState({
-      playerThatIsPlaying: playerId,
-      refToPlayerThatIsPlaying: audioPlayer
+
+    this.props.updatePlayerThatIsPlaying({
+      playerId,
+      refToPlayerThatIsPlaying: this.player
     });
-    audioPlayer.play();
+
+    this.player.play();
   };
 
-  handlePauseClick = audioPlayer => {
-    this.setState({
-      playerThatIsPlaying: null,
+  handlePauseClick = () => {
+    this.props.updatePlayerThatIsPlaying({
+      playerId: null,
       refToPlayerThatIsPlaying: null
     });
-    audioPlayer.pause();
+
+    this.player.pause();
   };
 
-  handlePreviousSongClick = (
-    playerKey,
-    currentSong,
-    playerIsPlaying,
-    audioPlayer
-  ) => {
+  handlePreviousSongClick = (playerKey, currentSong, playerIsPlaying) => {
+    const { refToPlayerThatIsPlaying } = this.props;
     if (currentSong > 1) {
       this.setState({
         ...this.state,
         playerKey: playerKey - 1
       });
       if (playerIsPlaying === true) {
-        audioPlayer.pause();
-        this.setState({
-          playerThatIsPlaying: null,
+        refToPlayerThatIsPlaying.pause();
+        this.props.updatePlayerThatIsPlaying({
+          playerId: null,
           refToPlayerThatIsPlaying: null
         });
       }
@@ -87,18 +87,18 @@ class AudioPlayer extends Component {
     playerKey,
     currentSong,
     playerIsPlaying,
-    totalNumberOfSongs,
-    audioPlayer
+    totalNumberOfSongs
   ) => {
+    const { refToPlayerThatIsPlaying } = this.props;
     if (currentSong < totalNumberOfSongs) {
       this.setState({
         ...this.state,
         playerKey: playerKey + 1
       });
       if (playerIsPlaying === true) {
-        audioPlayer.pause();
-        this.setState({
-          playerThatIsPlaying: null,
+        refToPlayerThatIsPlaying.pause();
+        this.props.updatePlayerThatIsPlaying({
+          playerId: null,
           refToPlayerThatIsPlaying: null
         });
       }
@@ -106,17 +106,22 @@ class AudioPlayer extends Component {
   };
 
   render() {
-    const { playerId, playerData, handleImageClick } = this.props;
-    const { playerKey, playerThatIsPlaying } = this.state;
+    const {
+      playerId,
+      playerData,
+      handleImageClick,
+      playerThatIsPlayingId
+    } = this.props;
+    const { playerKey } = this.state;
     const currentSong = playerKey + 1;
     const totalNumberOfSongs = playerData.length;
-    const playerIsPlaying = playerId === playerThatIsPlaying ? true : false;
+    const playerIsPlaying = playerId === playerThatIsPlayingId ? true : false;
 
     return (
       <>
         <audio
-          ref={el => (this[playerId] = el)}
-          src={playerData[playerKey]["audioUrl"]}
+          ref={el => (this.player = el)}
+          src={playerData[playerKey].audioUrl}
           autoPlay={false}
         />
         <Controls>
@@ -126,8 +131,7 @@ class AudioPlayer extends Component {
               this.handlePreviousSongClick(
                 playerKey,
                 currentSong,
-                playerIsPlaying,
-                this[playerId]
+                playerIsPlaying
               );
             }}
           >
@@ -136,7 +140,7 @@ class AudioPlayer extends Component {
           {playerIsPlaying && (
             <PlayPauseButton
               onClick={() => {
-                this.handlePauseClick(this[playerId]);
+                this.handlePauseClick();
               }}
             >
               <i className="material-icons">pause_circle_outline</i>
@@ -145,7 +149,7 @@ class AudioPlayer extends Component {
           {!playerIsPlaying && (
             <PlayPauseButton
               onClick={() => {
-                this.handlePlayClick(playerId, this[playerId]);
+                this.handlePlayClick(playerId);
               }}
             >
               <i className="material-icons">play_circle_outline</i>
@@ -157,19 +161,18 @@ class AudioPlayer extends Component {
                 playerKey,
                 currentSong,
                 playerIsPlaying,
-                totalNumberOfSongs,
-                this[playerId]
+                totalNumberOfSongs
               );
             }}
           >
             <i className="material-icons">keyboard_arrow_right</i>
           </RightButton>
-          <div>{playerData[playerKey]["title"]}</div>
+          <div>{playerData[playerKey].title}</div>
           <PlayerImage
-            alt={playerData[playerKey]["title"]}
-            src={playerData[playerKey]["imageUrl"]}
+            alt={playerData[playerKey].title}
+            src={playerData[playerKey].imageUrl}
             onClick={() => {
-              handleImageClick(playerData[playerKey]["imageUrl"]);
+              handleImageClick(playerData[playerKey].imageUrl);
             }}
           />
         </Controls>
@@ -178,10 +181,21 @@ class AudioPlayer extends Component {
   }
 }
 
-export default AudioPlayer;
+const mapStateToProps = state => {
+  return {
+    playerThatIsPlayingId: state.audioPlayer.playerThatIsPlayingId,
+    refToPlayerThatIsPlaying: state.audioPlayer.refToPlayerThatIsPlaying
+  };
+};
+
+const mapDispatchToProps = {
+  updatePlayerThatIsPlaying
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AudioPlayer);
 
 AudioPlayer.propTypes = {
-  playerData: PropTypes.number.isRequired,
+  playerData: PropTypes.array.isRequired,
   playerId: PropTypes.number.isRequired,
   handleImageClick: PropTypes.func.isRequired
 };

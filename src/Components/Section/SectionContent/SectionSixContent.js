@@ -15,7 +15,6 @@ const SectionSixContent = () => {
           width="350"
           height="148"
           frameBorder="0"
-          allowFullScreen
         ></iframe>
         <p>
           <a href="https://vimeo.com/184972437">Cosmotheca Dreamhouse</a> from{" "}
@@ -30,7 +29,6 @@ const SectionSixContent = () => {
           width="350"
           height="197"
           frameBorder="0"
-          allowFullScreen
         ></iframe>
         <p>
           <a href="https://vimeo.com/230840816">

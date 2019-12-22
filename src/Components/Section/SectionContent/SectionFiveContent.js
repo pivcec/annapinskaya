@@ -14,10 +14,7 @@ const SectionFiveContent = () => {
           title="Moonglade Tel Aviv MODERN CRAFTS"
           width="350"
           height="148"
-          frameborder="0"
-          webkitallowfullscreen
-          mozallowfullscreen
-          allowfullscreen
+          frameBorder="0"
         ></iframe>
         <p>
           <a href="https://vimeo.com/197999941">
@@ -33,10 +30,7 @@ const SectionFiveContent = () => {
           title="Haifa Vertical Underground for Moonglade"
           width="350"
           height="148"
-          frameborder="0"
-          webkitallowfullscreen
-          mozallowfullscreen
-          allowfullscreen
+          frameBorder="0"
         ></iframe>
         <p>
           <a href="https://vimeo.com/226233309">
@@ -53,10 +47,7 @@ const SectionFiveContent = () => {
           title="Moonglade Tel Aviv traile"
           width="350"
           height="148"
-          frameborder="0"
-          webkitallowfullscreen
-          mozallowfullscreen
-          allowfullscreen
+          frameBorder="0"
         ></iframe>
         <p>
           <a href="https://vimeo.com/196893040">Moonglade Tel Aviv trailer</a>{" "}
@@ -70,10 +61,7 @@ const SectionFiveContent = () => {
           title="Moonglade Lisbon URBAN"
           width="350"
           height="148"
-          frameborder="0"
-          webkitallowfullscreen
-          mozallowfullscreen
-          allowfullscreen
+          frameBorder="0"
         ></iframe>
         <p>
           <a href="https://vimeo.com/201049286">Moonglade Lisbon URBAN</a> from{" "}
@@ -87,10 +75,7 @@ const SectionFiveContent = () => {
           title="Moonglade Lisbon trailer"
           width="350"
           height="148"
-          frameborder="0"
-          webkitallowfullscreen
-          mozallowfullscreen
-          allowfullscreen
+          frameBorder="0"
         ></iframe>
         <p>
           <a href="https://vimeo.com/193806254">Moonglade Lisbon trailer</a>{" "}
@@ -104,10 +89,7 @@ const SectionFiveContent = () => {
           title="Moonglade Paris Art Recovery"
           width="350"
           height="148"
-          frameborder="0"
-          webkitallowfullscreen
-          mozallowfullscreen
-          allowfullscreen
+          frameBorder="0"
         ></iframe>
         <p>
           <a href="https://vimeo.com/204310497">Moonglade Paris Art Recovery</a>{" "}
