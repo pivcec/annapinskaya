@@ -7,7 +7,7 @@ import backgroundThreeImage from "./images/life-once.jpg";
 import backgroundFourImage from "./images/vanta-white.jpg";
 import backgroundFiveImage from "./images/moonglade.png";
 import backgroundSixImage from "./images/commercials.png";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import "./css/App.css";
 
 const Footer = styled.div`
@@ -16,6 +16,64 @@ const Footer = styled.div`
   color: #282e34;
   font: 400 15px/1.8 "Lato", sans-serif;
   padding: 5% 10%;
+`;
+
+const zoom = keyframes`
+  from { 
+    transform: scale(0); 
+  } 
+  to { 
+    transform: scale(1); 
+  }
+`;
+
+const ModalContent = styled.div`
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  animation: ${zoom} 0.3s linear;
+
+  @media only screen and (max-width: 700px) {
+    width: 100%;
+  }
+`;
+
+const ModalImage = styled.img`
+  max-width: 100%;
+`;
+
+const ModalClose = styled.span`
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+
+  &:hover,
+  &:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+  }
+`;
+
+const ModalBackground = styled.div`
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
+  display: ${props => (props.isOn ? "inline" : "none")};
 `;
 
 class App extends Component {
@@ -42,22 +100,25 @@ class App extends Component {
   };
 
   render() {
-    const getModalClassName = this.state.modalIsOn ? "modal-on" : "modal-off";
+    const { modalIsOn } = this.state;
     return (
       <>
-        <div className={getModalClassName}>
-          <span
-            className="close"
+        <ModalBackground isOn={modalIsOn}>
+          <ModalClose
             onClick={() => {
               this.handleModalCloseClick();
             }}
           >
             &times;
-          </span>
-          <div className="modal-content">
-            <img className="modal-image" src={this.state.modalImageSrc} />
-          </div>
-        </div>
+          </ModalClose>
+          <ModalContent>
+            <ModalImage
+              alt="modal content"
+              className="modal-image"
+              src={this.state.modalImageSrc}
+            />
+          </ModalContent>
+        </ModalBackground>
 
         <Background
           backgroundImage={backgroundOneImage}
@@ -66,11 +127,7 @@ class App extends Component {
           isMainTitle
         />
 
-        <Section
-          isMain
-          sectionId={1}
-          handleImageClick={this.handleImageClick}
-        />
+        <Section isMain sectionId={1} />
 
         <Background
           backgroundImage={backgroundTwoImage}

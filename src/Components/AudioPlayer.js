@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const Controls = styled.div`
@@ -42,12 +43,12 @@ class AudioPlayer extends Component {
     refToPlayerThatIsPlaying: null
   };
 
-  handlePlayClick = (playerName, audioPlayer) => {
+  handlePlayClick = (playerId, audioPlayer) => {
     if (this.state.playerThatIsPlaying !== null) {
       this.state.refToPlayerThatIsPlaying.pause();
     }
     this.setState({
-      playerThatIsPlaying: playerName,
+      playerThatIsPlaying: playerId,
       refToPlayerThatIsPlaying: audioPlayer
     });
     audioPlayer.play();
@@ -104,22 +105,12 @@ class AudioPlayer extends Component {
     }
   };
 
-  getPlayerIsPlaying = (playerId, playerThatIsPlaying) => {
-    if (playerId === playerThatIsPlaying) {
-      return true;
-    }
-    return false;
-  };
-
   render() {
     const { playerId, playerData, handleImageClick } = this.props;
     const { playerKey, playerThatIsPlaying } = this.state;
     const currentSong = playerKey + 1;
     const totalNumberOfSongs = playerData.length;
-    const playerIsPlaying = this.getPlayerIsPlaying(
-      playerId,
-      playerThatIsPlaying
-    );
+    const playerIsPlaying = playerId === playerThatIsPlaying ? true : false;
 
     return (
       <>
@@ -188,3 +179,9 @@ class AudioPlayer extends Component {
 }
 
 export default AudioPlayer;
+
+AudioPlayer.propTypes = {
+  playerData: PropTypes.number.isRequired,
+  playerId: PropTypes.number.isRequired,
+  handleImageClick: PropTypes.func.isRequired
+};

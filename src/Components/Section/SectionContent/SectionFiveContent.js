@@ -1,11 +1,17 @@
 import React from "react";
+import styled from "styled-components";
+
+const Video = styled.div`
+  text-align: center;
+`;
 
 const SectionFiveContent = () => {
   return (
     <>
-      <div className="video">
+      <Video>
         <iframe
           src="https://player.vimeo.com/video/197999941?color=070808"
+          title="Moonglade Tel Aviv MODERN CRAFTS"
           width="350"
           height="148"
           frameborder="0"
@@ -20,10 +26,11 @@ const SectionFiveContent = () => {
           from <a href="https://vimeo.com/moongladeworld">Moonglade</a> on{" "}
           <a href="https://vimeo.com">Vimeo</a>.
         </p>
-      </div>
-      <div className="video">
+      </Video>
+      <Video>
         <iframe
           src="https://player.vimeo.com/video/226233309?color=000608&title=0&byline=0&portrait=0"
+          title="Haifa Vertical Underground for Moonglade"
           width="350"
           height="148"
           frameborder="0"
@@ -39,10 +46,11 @@ const SectionFiveContent = () => {
           <a href="https://vimeo.com/rakshaworld">Vladimir Raksh&aacute;</a> on{" "}
           <a href="https://vimeo.com">Vimeo</a>.
         </p>
-      </div>
-      <div className="video">
+      </Video>
+      <Video>
         <iframe
           src="https://player.vimeo.com/video/196893040?color=070808&title=0&byline=0&portrait=0"
+          title="Moonglade Tel Aviv traile"
           width="350"
           height="148"
           frameborder="0"
@@ -55,10 +63,11 @@ const SectionFiveContent = () => {
           from <a href="https://vimeo.com/moongladeworld">Moonglade</a> on{" "}
           <a href="https://vimeo.com">Vimeo</a>.
         </p>
-      </div>
-      <div className="video">
+      </Video>
+      <Video>
         <iframe
           src="https://player.vimeo.com/video/201049286?color=070808"
+          title="Moonglade Lisbon URBAN"
           width="350"
           height="148"
           frameborder="0"
@@ -71,10 +80,11 @@ const SectionFiveContent = () => {
           <a href="https://vimeo.com/moongladeworld">Moonglade</a> on{" "}
           <a href="https://vimeo.com">Vimeo</a>.
         </p>
-      </div>
-      <div className="video">
+      </Video>
+      <Video>
         <iframe
           src="https://player.vimeo.com/video/193806254?color=ffffff&title=0&byline=0&portrait=0"
+          title="Moonglade Lisbon trailer"
           width="350"
           height="148"
           frameborder="0"
@@ -87,10 +97,11 @@ const SectionFiveContent = () => {
           from <a href="https://vimeo.com/moongladeworld">Moonglade</a> on{" "}
           <a href="https://vimeo.com">Vimeo</a>.
         </p>
-      </div>
-      <div className="video">
+      </Video>
+      <Video>
         <iframe
           src="https://player.vimeo.com/video/204310497?title=0&byline=0&portrait=0"
+          title="Moonglade Paris Art Recovery"
           width="350"
           height="148"
           frameborder="0"
@@ -103,7 +114,7 @@ const SectionFiveContent = () => {
           from <a href="https://vimeo.com/moongladeworld">Moonglade</a> on{" "}
           <a href="https://vimeo.com">Vimeo</a>.
         </p>
-      </div>
+      </Video>
     </>
   );
 };

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import SectionOneContent from "./SectionContent/SectionOneContent";
 import SectionTwoContent from "./SectionContent/SectionTwoContent";
@@ -46,3 +47,10 @@ class Section extends Component {
 }
 
 export default Section;
+
+Section.propTypes = {
+  sectionId: PropTypes.number.isRequired,
+  playerId: PropTypes.number,
+  isMain: PropTypes.bool.isRequired,
+  handleImageClick: PropTypes.func
+};
